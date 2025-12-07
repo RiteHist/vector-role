@@ -1,0 +1,12 @@
+sources:
+  host_logs:
+    type: journald
+    current_boot_only: true
+
+sinks:
+  console_sink:
+    type: console
+    inputs:
+      - host_logs
+    encoding:
+      codec: json

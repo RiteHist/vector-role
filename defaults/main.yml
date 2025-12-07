@@ -1,3 +1,8 @@
-#SPDX-License-Identifier: MIT-0
 ---
 # defaults file for vector-role
+vector_version: "0.51.1"
+vector_pkg_arch: "amd64"
+
+vector_deb_pkg: "https://packages.timber.io/vector/{{ vector_version }}/vector_{{ vector_version }}-1_{{ vector_pkg_arch }}.deb"
+
+vector_config_path: "/etc/vector/vector.yaml"

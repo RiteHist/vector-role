@@ -1,3 +1,19 @@
-#SPDX-License-Identifier: MIT-0
 ---
 # tasks file for vector-role
+- name: Download vector
+  ansible.builtin.get_url:
+    url: "{{ vector_deb_pkg }}"
+    dest: "/tmp/vector-{{ vector_version }}.deb"
+  tags: [ install, download ]
+
+- name: Install vector
+  ansible.builtin.apt:
+    deb: "/tmp/vector-{{ vector_version }}.deb"
+  tags: install
+
+- name: Configure vector
+  ansible.builtin.template:
+    src: vector.j2
+    dest: "{{ vector_config_path }}"
+  notify: restart-vector
+  tags: config
