@@ -1,4 +1,4 @@
-Role Name
+Vector Install
 =========
 
 A simple Ansible role that installs Vector on a Debian-based machine and configures it using a template file.
