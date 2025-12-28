@@ -1,0 +1,41 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Load vector role variables
+      include_vars:
+        file: ../../defaults/main.yml
+    - name: Check if vector config exists
+
+      ansible.builtin.stat:
+        path: "{{ vector_config_path }}"
+      register: vector_config
+    - name: Assert that vector config exists
+      ansible.builtin.assert:
+        that:
+          - vector_config.stat.exists
+        fail_msg: "Vector config file does not exists at {{ vector_config_path }}"
+        success_msg: "Vector config file exists."
+
+    - name: Check if vector is installed
+      ansible.builtin.command: vector --version
+      register: vector_version_check
+      ignore_errors: yes
+    - name: Assert that vector is installed
+      ansible.builtin.assert:
+        that:
+          - vector_version_check.rc == 0
+        fail_msg: "Vector is not installed"
+        success_msg: "Vector is installed"
+
+    - name: Check if vector service is running
+      ansible.builtin.command: systemctl is-active vector
+      register: vector_service_check
+      ignore_errors: yes
+    - name: Assert that vector service is running
+      ansible.builtin.assert:
+        that:
+          - vector_service_check.stdout == "active"
+        fail_msg: "Vector service is not running"
+        success_msg: "Vector service is running"

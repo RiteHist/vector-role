@@ -23,3 +23,5 @@ platforms:
     command: /lib/systemd/systemd
 provisioner:
   name: ansible
+verifier:
+  name: ansible
